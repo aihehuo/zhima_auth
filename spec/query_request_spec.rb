@@ -23,7 +23,7 @@ describe ZhimaAuth::QueryRequest do
     let(:request){ ZhimaAuth::QueryRequest.new(params) }
     context "when request is success" do
       before do
-        expect(request).to receive(:excute).and_return({
+        expect(request).to receive(:execute).and_return({
           "zhima_customer_certification_query_response"=>{"failed_reason"=>"请返回重新认证", "passed"=>"false", "channel_statuses"=>"[]", "identity_info"=>"{}", "code"=>"10000", "msg"=>"Success"},
           "sign"=>"FIt8mGYY4CNsaXkzcRJw/6PXYiX+tvTz0mTOuI4pPLl7tSyoGKeqqs7sWX6tJkSP=="
         }.to_json)
@@ -35,7 +35,7 @@ describe ZhimaAuth::QueryRequest do
 
     context "when request failed with code not to eq 10000" do
       before do
-        expect(request).to receive(:excute).and_return({
+        expect(request).to receive(:execute).and_return({
           "zhima_customer_certification_query_response"=>{"code"=>"40004", "msg"=>"Business Failed", "sub_code"=>"ILLEGAL_INVOKE", "sub_msg"=>"无效的调用"},
           "sign"=>"P8WlZPX7QHD8/pxaS4aFXnhxlF3TbB0aDZtt4WZGy4xnehFcUcsmOgyqOyMbuzUD=="
         }.to_json)

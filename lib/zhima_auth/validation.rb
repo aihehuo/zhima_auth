@@ -27,8 +27,7 @@ module ZhimaAuth
         raise ZhimaAuth::InvalidResponse, "Initialize request failed" unless (response.is_a? Hash) && response["zhima_customer_certification_initialize_response"]
         response_code = response["zhima_customer_certification_initialize_response"]["code"]
         if response_code != "10000"
-          response_msg = response["zhima_customer_certification_initialize_response"]["sub_msg"]
-          raise ZhimaAuth::InvalidResponse, "#{response_code}#{response_msg}"
+          raise ZhimaAuth::InvalidResponse, response.to_json
         end
         true
       end
@@ -37,8 +36,7 @@ module ZhimaAuth
         raise ZhimaAuth::InvalidResponse, "Query request failed" unless (response.is_a? Hash) && response["zhima_customer_certification_query_response"]
         response_code = response["zhima_customer_certification_query_response"]["code"]
         if response_code != "10000"
-          response_msg = response["zhima_customer_certification_query_response"]["sub_msg"]
-          raise ZhimaAuth::InvalidResponse, "#{response_code}#{response_msg}"
+          raise ZhimaAuth::InvalidResponse, response.to_json
         end
         true
       end
@@ -47,8 +45,7 @@ module ZhimaAuth
         raise ZhimaAuth::InvalidResponse, "Credit request failed" unless (response.is_a? Hash) && response["zhima_credit_score_brief_get_response"]
         response_code = response["zhima_credit_score_brief_get_response"]["code"]
         if response_code != "10000"
-          response_msg = response["zhima_credit_score_brief_get_response"]["sub_msg"]
-          raise ZhimaAuth::InvalidResponse, "#{response_code}#{response_msg}"
+          raise ZhimaAuth::InvalidResponse, response.to_json
         end
         true
       end

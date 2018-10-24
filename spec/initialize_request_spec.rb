@@ -51,7 +51,7 @@ describe ZhimaAuth::InitializeRequest do
     let(:request){ ZhimaAuth::InitializeRequest.new(params) }
     context "when request is success" do
       before do
-        expect(request).to receive(:excute).and_return({
+        expect(request).to receive(:execute).and_return({
           "zhima_customer_certification_initialize_response" =>{"code"=>"10000", "biz_no"=>"ZM201704153000000070700021812345", "msg"=>"Success"},
           "sign"=>"hJ1O4vXmNaWybX3hYBL31zrB6Iw=="
         }.to_json)
@@ -63,7 +63,7 @@ describe ZhimaAuth::InitializeRequest do
 
     context "when request failed with code not to eq 10000" do
       before do
-        expect(request).to receive(:excute).and_return({
+        expect(request).to receive(:execute).and_return({
           "zhima_customer_certification_initialize_response" =>{"code"=>"40002", "msg"=>"Invalid Arguments", "sub_code"=>"isv.invalid-signature", "sub_msg"=>"无效签名"},
           "sign"=>"hJ1O4vXmNaWybX3hYBL31zrB6Iw=="
         }.to_json)

@@ -32,12 +32,12 @@ module ZhimaAuth
       @transaction_id = biz_params[:transaction_id]
     end
 
-    def excute
+    def execute
       @response ||= RestClient.post url_with_params, {}
     end
 
     def get_biz_no
-      res = JSON.parse(excute)
+      res = JSON.parse(execute)
       Validation.check_initialize_response res
       res["zhima_customer_certification_initialize_response"]["biz_no"]
     end
@@ -105,12 +105,13 @@ module ZhimaAuth
       @biz_no = biz_no
     end
 
-    def excute
+    def execute
       @response ||= RestClient.post url, params_with_sign
+      Rails.logger.info "zhima_auth request: #{@response}"
     end
 
     def get_certify_result
-      res = JSON.parse(excute)
+      res = JSON.parse(execute)
       Validation.check_query_response res
       res["zhima_customer_certification_query_response"]["passed"]
     end
@@ -140,12 +141,12 @@ module ZhimaAuth
       @admittance_score = biz_params[:admittance_score]
     end
 
-    def excute
+    def execute
       @response ||= RestClient.post url_with_params, {}
     end
 
     def get_result
-      res = JSON.parse(excute)
+      res = JSON.parse(execute)
       Validation.check_credit_response res
       result = res["zhima_credit_score_brief_get_response"]["is_admittance"]
       biz_no = res["zhima_credit_score_brief_get_response"]["biz_no"]
