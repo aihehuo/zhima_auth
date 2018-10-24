@@ -108,6 +108,7 @@ module ZhimaAuth
     def execute
       @response ||= RestClient.post url, params_with_sign
       Rails.logger.info "zhima_auth request: #{@response}"
+      @response
     end
 
     def get_certify_result
