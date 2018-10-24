@@ -106,14 +106,14 @@ module ZhimaAuth
     end
 
     def execute
-      @response ||= RestClient.post url, params_with_sign
+      @response ||= (RestClient.post url, params_with_sign).encode(Encoding.find("utf-8"),Encoding.find("gbk"))
       Rails.logger.info "zhima_auth request: #{@response}"
       @response
     end
 
     def get_certify_result
       result = execute
-      res = JSON.parse(result.encode(Encoding.find("utf-8"),Encoding.find("gbk")))
+      res = JSON.parse(result)
       Validation.check_query_response res
       res["zhima_customer_certification_query_response"]["passed"]
     end
