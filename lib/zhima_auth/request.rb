@@ -112,7 +112,8 @@ module ZhimaAuth
     end
 
     def get_certify_result
-      res = JSON.parse(execute)
+      result = execute
+      res = JSON.parse(result.encode(Encoding.find("utf-8"),Encoding.find("gbk")))
       Validation.check_query_response res
       res["zhima_customer_certification_query_response"]["passed"]
     end
