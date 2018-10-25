@@ -115,7 +115,7 @@ module ZhimaAuth
       result = execute
       res = JSON.parse(result)
       Validation.check_query_response res
-      res["zhima_customer_certification_query_response"]["passed"]
+      res["zhima_customer_certification_query_response"]
     end
 
     private
