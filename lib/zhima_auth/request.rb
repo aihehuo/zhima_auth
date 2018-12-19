@@ -132,7 +132,37 @@ module ZhimaAuth
 
   end
 
-  class CreditRequest < BaseRequest
+  class AuthQueryRequest < BaseRequest
+    def initialize biz_params
+      @userId = biz_params[:userId]
+      @cert_name = biz_params[:cert_name]  
+    end
+
+    def execute
+      "alipays://platformapi/startapp?appId=20000067&url=" + CGI.escape(url_with_params)
+    end
+
+    private
+    def url_with_params
+      [url, WebUtil.to_query(params_with_sign)].join("?")
+    end
+
+    def params
+      @params ||= base_params.merge({
+        method: "zhima.auth.info.authquery",
+        timestamp: Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+        biz_content: {
+          identity_type: "5",
+          identity_param: {
+            userId: @userId
+          },
+          auth_category: "C2ConB"
+        }.to_json
+      })
+    end
+  end
+
+  class MutualViewApplyRequest < BaseRequest
     def initialize biz_params
       @cert_type = biz_params[:cert_type]
       @cert_name = biz_params[:cert_name]
@@ -170,5 +200,5 @@ module ZhimaAuth
       })
     end
   end
-    
+
 end
