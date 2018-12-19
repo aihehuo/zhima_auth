@@ -133,54 +133,42 @@ module ZhimaAuth
   end
 
   class CreditRequest < BaseRequest
-
     def initialize biz_params
-      # support cert_type: IDENTITY_CARD(身份证),PASSPORT(护照),ALIPAY_USER_ID(支付宝uid)
       @cert_type = biz_params[:cert_type]
       @cert_name = biz_params[:cert_name]
-      @cert_no = biz_params[:cert_no]
-      @transaction_id = biz_params[:transaction_id]
-      @admittance_score = biz_params[:admittance_score]
+      @cert_no = biz_params[:cert_no]  
+      @callback_url = biz_params[:callback_url]  
+      @ext_biz_param = biz_params[:ext_biz_param]   
     end
 
     def execute
-      @response ||= RestClient.post url_with_params, {}
-    end
-
-    def get_result
-      res = JSON.parse(execute)
-      Validation.check_credit_response res
-      result = res["zhima_credit_score_brief_get_response"]["is_admittance"]
-      biz_no = res["zhima_credit_score_brief_get_response"]["biz_no"]
-      {
-        passed: result == "Y" ? true : false,
-        biz_no: biz_no
-      }
+      "alipays://platformapi/startapp?appId=20000067&url=" + CGI.escape(url_with_params)
     end
 
     private
-
     def url_with_params
       [url, WebUtil.to_query(params_with_sign)].join("?")
     end
 
     def params
       @params ||= base_params.merge({
-        method: "zhima.credit.score.brief.get",
+        method: "zhima.customer.auth.mutualview.apply",
         timestamp: Time.now.strftime("%Y-%m-%d %H:%M:%S"),
-        biz_content: biz_content.to_json
+        biz_content: {
+          product_param: {
+            productCode: "w1010100001000002181"
+          },
+          biz_type: "self",
+          identity_param: {
+            certType: "IDENTITY_CARD",
+            name: @cert_name,
+            certNo: @cert_no
+          }, 
+          callback_url: @callback_url,
+          ext_biz_param: @ext_biz_param
+        }.to_json
       })
     end
-
-    def biz_content
-      {
-        transaction_id: @transaction_id,
-        product_code: "w1010100000000002733",
-        cert_type: @cert_type,
-        cert_no: @cert_no,
-        name: @cert_name,
-        admittance_score: @admittance_score
-      }.delete_if { |key, value| value.to_s.strip == '' }
-    end
   end
+    
 end
