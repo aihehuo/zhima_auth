@@ -135,7 +135,6 @@ module ZhimaAuth
   class AuthQueryRequest < BaseRequest
     def initialize biz_params
       @userId = biz_params[:userId]
-      @cert_name = biz_params[:cert_name]  
     end
 
     def execute
