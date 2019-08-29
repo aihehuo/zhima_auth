@@ -116,7 +116,7 @@ module ZhimaAuth
       def get_certify_result
         result = execute
         res = JSON.parse(result)
-        Validation.check_query_response res
+        # Validation.check_query_response res
         res["alipay_user_certify_open_query_response"]["passed"]
       end
 
