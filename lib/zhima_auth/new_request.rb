@@ -76,7 +76,7 @@ module ZhimaAuth
       def initialize(biz_params)
         Validation.check_certify_params biz_params
 
-        @certify_id = biz_params[:certify_id]
+        @certify_id = biz_params[:biz_no]
         @return_url = biz_params[:return_url]
       end
 
