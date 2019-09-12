@@ -116,7 +116,7 @@ module ZhimaAuth
       result = execute
       res = JSON.parse(result)
       # Validation.check_query_response res
-      res["alipay_user_certify_open_query_response"]["passed"]
+      res["alipay_user_certify_open_query_response"]
     end
 
     private
@@ -127,6 +127,45 @@ module ZhimaAuth
         timestamp: Time.now.strftime("%Y-%m-%d %H:%M:%S"),
         biz_content: {
           certify_id: @biz_no
+        }.to_json
+      })
+    end
+  end
+
+  class MutualViewApplyRequest < BaseRequest
+    def initialize biz_params
+      @cert_type = biz_params[:cert_type]
+      @cert_name = biz_params[:cert_name]
+      @cert_no = biz_params[:cert_no]  
+      @callback_url = biz_params[:callback_url]  
+      @ext_biz_param = biz_params[:ext_biz_param]   
+    end
+
+    def execute
+      "alipays://platformapi/startapp?appId=20000067&url=" + CGI.escape(url_with_params)
+    end
+
+    private
+    def url_with_params
+      [url, WebUtil.to_query(params_with_sign)].join("?")
+    end
+
+    def params
+      @params ||= base_params.merge({
+        method: "zhima.customer.auth.mutualview.apply",
+        timestamp: Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+        biz_content: {
+          product_param: {
+            productCode: "w1010100001000002181"
+          },
+          biz_type: "self",
+          identity_param: {
+            certType: "IDENTITY_CARD",
+            name: @cert_name,
+            certNo: @cert_no
+          }, 
+          callback_url: @callback_url,
+          ext_biz_param: @ext_biz_param
         }.to_json
       })
     end
