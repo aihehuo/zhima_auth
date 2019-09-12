@@ -22,7 +22,7 @@ module ZhimaAuth
   def self.certify biz_params
     params = biz_params[:transaction_id] ? biz_params : biz_params.merge({transaction_id: SecureRandom.uuid})
     biz_no = InitializeRequest.new(params).get_certify_id
-    url = CertifyRequest.new({biz_no: biz_no, return_url: "#{biz_params[:return_url]}?biz_no=#{biz_no}").generate_url
+    url = CertifyRequest.new({biz_no: biz_no, return_url: "#{biz_params[:return_url]}?biz_no=#{biz_no}"}).generate_url
     return {
       biz_no: biz_no,
       certify_url: url
