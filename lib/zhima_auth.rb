@@ -21,7 +21,7 @@ module ZhimaAuth
   # expected biz_params { cert_name: "王大锤", cert_no: "32099999999999999X", transaction_id(optional): "789789", return_url: "http://www.liangboyuan.pub" }
   def self.certify biz_params
     params = biz_params[:transaction_id] ? biz_params : biz_params.merge({transaction_id: SecureRandom.uuid})
-    biz_no = InitializeRequest.new(params).get_biz_no
+    biz_no = InitializeRequest.new(params).get_certify_id
     url = CertifyRequest.new({biz_no: biz_no, return_url: biz_params[:return_url]}).generate_url
     return {
       biz_no: biz_no,
