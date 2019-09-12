@@ -1,5 +1,5 @@
 module ZhimaAuth
-  module Old
+  module Credit
     class BaseRequest
       REQUEST_GATEWAY = 'https://openapi.alipay.com/gateway.do'
 
