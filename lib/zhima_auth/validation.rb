@@ -24,8 +24,8 @@ module ZhimaAuth
       end
 
       def check_initialize_response response
-        raise ZhimaAuth::InvalidResponse, "Initialize request failed" unless (response.is_a? Hash) && response["zhima_customer_certification_initialize_response"]
-        response_code = response["zhima_customer_certification_initialize_response"]["code"]
+        raise ZhimaAuth::InvalidResponse, "Initialize request failed" unless (response.is_a? Hash) && response["alipay_user_certify_open_initialize_response"]
+        response_code = response["alipay_user_certify_open_initialize_response"]["code"]
         if response_code != "10000"
           raise ZhimaAuth::InvalidResponse, response.to_json
         end
@@ -33,8 +33,8 @@ module ZhimaAuth
       end
 
       def check_query_response response
-        raise ZhimaAuth::InvalidResponse, "Query request failed" unless (response.is_a? Hash) && response["zhima_customer_certification_query_response"]
-        response_code = response["zhima_customer_certification_query_response"]["code"]
+        raise ZhimaAuth::InvalidResponse, "Query request failed" unless (response.is_a? Hash) && response["alipay_user_certify_open_query_response"]
+        response_code = response["alipay_user_certify_open_query_response"]["code"]
         if response_code != "10000"
           raise ZhimaAuth::InvalidResponse, response.to_json
         end
